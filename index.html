@@ -3,101 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotação de Frete Rodoviário</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Calculadora de Frete Rodoviário</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <main class="calc-card">
 
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-card">
+            <span class="badge-status">ACESSO</span>
+            <h2>Identificação</h2>
+            <p>Informe seus dados para iniciar a simulação</p>
+
+            <form id="loginForm" autocomplete="on">
+                <div class="input-field">
+                    <label for="userName">Nome Completo</label>
+                    <input type="text" id="userName" name="userName" autocomplete="name" placeholder="Ex: Pedro Lanza" required>
+                </div>
+
+                <div class="input-field login-phone-field">
+                    <label for="userPhone">Telefone / WhatsApp</label>
+                    <input type="tel" id="userPhone" name="userPhone" autocomplete="tel" placeholder="(75) 99999-9999" required>
+                </div>
+
+                <button type="submit" class="btn-primary login-submit">ENTRAR NO SISTEMA</button>
+            </form>
+        </div>
+    </div>
+
+    <main class="calc-card">
         <header class="calc-header">
             <span class="badge-status">SISTEMA ONLINE</span>
-            <h1>Cotação de Frete Rodoviário</h1>
-            <p>Preencha os dados abaixo para gerar a memória de cálculo completa.</p>
+            <h1>Cálculo de Frete</h1>
+            <p>Simulação e memória de cálculo simplificada</p>
         </header>
 
-        <form id="calcForm" onsubmit="event.preventDefault(); calcularFrete();">
+        <form id="freteForm" autocomplete="off">
             <div class="form-grid">
                 <div class="input-field full-width">
-                    <label for="cliente">Nome/Razão Social</label>
-                    <input type="text" id="cliente" name="cliente" placeholder="Ex: Logística Silva LTDA" required>
+                    <label for="emitente">Emitente da Nota / Transportadora</label>
+                    <input type="text" id="emitente" placeholder="Ex: Express Logistics Brasil" required>
                 </div>
+
+                <div class="input-field full-width">
+                    <label for="cliente">Cliente / Razão Social</label>
+                    <input type="text" id="cliente" required placeholder="Ex: Empresa XYZ">
+                </div>
+
                 <div class="input-field">
                     <label for="origem">Origem</label>
-                    <input type="text" id="origem" placeholder="Ex: Salvador - BA" required>
+                    <input type="text" id="origem" required placeholder="Ex: São Paulo - SP">
                 </div>
+
                 <div class="input-field">
-                    <label for="destino">Cidade de Destino</label>
-                    <input type="text" id="destino" placeholder="Ex: São Paulo - SP" required>
+                    <label for="destino">Destino</label>
+                    <input type="text" id="destino" required placeholder="Ex: Rio de Janeiro - RJ">
                 </div>
-                <!--dados da carga-->
-                <div class="input-field">
-                    <label for="mercadoria">Descrição da Mercadoria</label>
-                    <input type="text" id="mercadoria" name="mercadoria" placeholder="Ex: Jogos">
-                </div>
-                <div class="input-field">
-                    <label for="valorNF">Valor da Nota Fiscal (R$)</label>
-                    <input type="number" id="valorNF" step="0.01" min="0" placeholder="Ex: 1000.00" inputmode="decimal" required>
-                </div>
-                <!--dimensao e volume-->
-                <div class="input-field">
-                    <label for="comprimento">Comprimento (cm)</label>
-                    <input type="number" id="comprimento" step="0.1" min="0" placeholder="Ex: 80" inputmode="decimal" required>
-                </div>
-                <div class="input-field">
-                    <label for="largura">Largura (cm)</label>
-                    <input type="number" id="largura" step="0.1" min="0" placeholder="Ex: 60" inputmode="decimal" required>
-                </div>
-                <div class="input-field">
-                    <label for="altura">Altura (cm)</label>
-                    <input type="number" id="altura" step="0.1" min="0" placeholder="Ex: 50" inputmode="decimal" required>
-                </div>
-                <div class="input-field">
-                    <label for="quantidade">Qtd. de Volumes</label>
-                    <input type="number" id="quantidade" value="1" min="1" inputmode="numeric" required>
-                </div>
+
                 <div class="input-field full-width">
-                    <label for="pesoReal">Peso Real Total na Balança (kg)</label>
-                    <input type="number" id="pesoReal" step="0.1" min="0.1" placeholder="Ex: 150" inputmode="decimal" required>
+                    <label for="mercadoria">Tipo de Mercadoria</label>
+                    <input type="text" id="mercadoria" required placeholder="Ex: Eletrônicos, Bobinas, etc.">
                 </div>
-                <!--tarifas-->
+
                 <div class="input-field">
-                    <label for="tarifa">Tarifa por kg (R$)</label>
-                    <input type="number" id="tarifa" step="0.01" min="0" placeholder="Ex: 2.50" inputmode="decimal" required>
+                    <label for="valorNF">Valor da NF (R$)</label>
+                    <input type="number" id="valorNF" step="0.01" min="0" required placeholder="0,00">
                 </div>
+
                 <div class="input-field">
+                    <label for="pesoReal">Peso Real Total (kg)</label>
+                    <input type="number" id="pesoReal" step="0.01" min="0" required placeholder="Ex: 150">
+                </div>
+
+                <div class="input-field trio-width">
+                    <label for="comprimento">Comp. (cm)</label>
+                    <input type="number" id="comprimento" min="0" required placeholder="Ex: 100">
+                </div>
+
+                <div class="input-field trio-width">
+                    <label for="largura">Larg. (cm)</label>
+                    <input type="number" id="largura" min="0" required placeholder="Ex: 80">
+                </div>
+
+                <div class="input-field trio-width">
+                    <label for="altura">Alt. (cm)</label>
+                    <input type="number" id="altura" min="0" required placeholder="Ex: 50">
+                </div>
+
+                <div class="input-field">
+                    <label for="qtdVolumes">Qtd Volumes</label>
+                    <input type="number" id="qtdVolumes" min="1" value="1" required>
+                </div>
+
+                <div class="input-field">
+                    <label for="tarifaKg">Tarifa/kg (R$)</label>
+                    <input type="number" id="tarifaKg" step="0.01" min="0" required placeholder="Ex: 2.50">
+                </div>
+
+                <div class="input-field full-width">
                     <label for="freteMinimo">Frete Mínimo (R$)</label>
-                    <input type="number" id="freteMinimo" step="0.01" min="0" placeholder="Ex: 100.00" inputmode="decimal" value="100.00">
+                    <input type="number" id="freteMinimo" step="0.01" min="0" placeholder="Ex: 150.00">
                 </div>
-                <div class="input-field">
+
+                <div class="input-field trio-width">
                     <label for="adValorem">Ad Valorem (%)</label>
-                    <input type="number" id="adValorem" step="0.01" min="0" placeholder="0.30" inputmode="decimal" value="0.30">
+                    <input type="number" id="adValorem" step="0.01" min="0" placeholder="Ex: 0.5">
                 </div>
-                <div class="input-field">
-                    <label for="gris">Gris (%)</label>
-                    <input type="number" id="gris" step="0.01" min="0" placeholder="Ex: 0.20" inputmode="decimal" value="0.20">
+
+                <div class="input-field trio-width">
+                    <label for="gris">GRIS (%)</label>
+                    <input type="number" id="gris" step="0.01" min="0" placeholder="Ex: 0.3">
                 </div>
-                <div class="input-field full-width">
-                    <label for="pedagio">Pedágio Fixo / Fração (R$)</label>
-                    <input type="number" id="pedagio" step="0.01" min="0" placeholder="Ex: 15.00" inputmode="decimal" value="15.00">
+
+                <div class="input-field trio-width">
+                    <label for="pedagio">Pedágio (R$)</label>
+                    <input type="number" id="pedagio" step="0.01" min="0" placeholder="Ex: 25.00">
                 </div>
             </div>
-            <!--botao de ação-->
+
             <div class="button-group">
                 <button type="submit" class="btn-primary">CALCULAR FRETE</button>
-                <button type="button" class="btn-secondary" onclick="limparFormulario()">LIMPAR</button>
+                <button type="button" class="btn-secondary" id="btnLimpar">LIMPAR</button>
             </div>
         </form>
-        <!--box c resultados/memoria de calc detalhada-->
+
         <section id="resultado" class="result-box" aria-live="polite"></section>
-        <!--secao informativa-->
-        <section class="info-box">
-            <h2>Como funciona a Memória de Cálculo Rodoviária?</h2>
-            <p><strong>1. Fator Rodoviário:</strong> Considera o padrão fixo de 1 m³ = 300 kg.</p>
-            <p><strong>2. Peso Taxável:</strong> Compara o Peso Real e o Cubado, utilizando o maior.</p>
-            <p><strong>3. Taxas do Setor:</strong> Ad Valorem (seguro da carga), GRIS (gerenciamento de risco) e Pedágio.</p>
-        </section>
+
+        <footer class="footer">
+            <p>&copy; 2026 Pedro Silva. Todos os direitos reservados.</p>
+        </footer>
     </main>
+
     <script src="script.js"></script>
 </body>
 </html>
